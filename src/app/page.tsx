@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { searchBooks } from "../services/openLibraryService";
 import BookCard from "../components/BookCard";
@@ -27,7 +29,7 @@ export default function Home() {
 
   return (
     <div className="container">
-      <h1>Biblioteca Inteligente</h1>
+      <h1>📚 Biblioteca Inteligente</h1>
 
       <div className="book-grid">
         {books.map((book, index) => (
