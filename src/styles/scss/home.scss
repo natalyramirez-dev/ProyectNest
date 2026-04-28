@@ -1,0 +1,51 @@
+ @use './variables';
+ 
+.container {
+  padding: 20px;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.book-card {
+  background: variables.$color-card;
+  border-radius: variables.$border-radius;
+  padding: 10px;
+  text-align: center;
+  box-shadow: variables.$shadow-card;
+  transition: transform 0.2s ease;
+}
+
+.book-card:hover {
+  transform: scale(1.03);
+}
+
+.book-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.buttons {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+button {
+  padding: 8px;
+  border: none;
+  border-radius: variables.$border-radius;
+  cursor: pointer;
+  background-color: variables.$color-primary;
+  color: white;
+}
+
+button:hover {
+  background-color: variables.$color-primary-hover;
+}

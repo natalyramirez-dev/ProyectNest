@@ -1,0 +1,11 @@
+ @use './variables';
+ @use './home';
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: variables.$color-bg;
+  color: variables.$color-text;
+  margin: 0;
+  padding: 0;
+}
+
