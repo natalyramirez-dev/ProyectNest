@@ -1,5 +1,7 @@
  @use './variables';
  @use './home';
+ @use './search';
+ @use './navbar';
 
 body {
   font-family: Arial, sans-serif;
