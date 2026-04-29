@@ -1,0 +1,95 @@
+@use "./variables";
+
+/* SECCIÓN DE BÚSQUEDA */
+.search-section {
+  background: variables.$color-card;
+  border-radius: variables.$border-radius;
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: variables.$shadow-card;
+}
+
+/* SELECTOR DE TIPO */
+.search-type-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+
+  button {
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+    padding: 8px 16px;
+    border-radius: variables.$border-radius;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #ccc;
+      transform: none;
+    }
+
+    &.active {
+      background-color: variables.$color-primary;
+      color: white;
+    }
+  }
+}
+
+/* FILA DE INPUT + BOTÓN */
+.search-input-row {
+  display: flex;
+  gap: 10px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+}
+
+/* INPUT */
+.search-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid #ddd;
+  border-radius: variables.$border-radius;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    border-color: variables.$color-primary;
+  }
+}
+
+/* BOTÓN BUSCAR */
+.search-btn {
+  padding: 10px 24px;
+  background-color: variables.$color-primary;
+  color: white;
+  border: none;
+  border-radius: variables.$border-radius;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background-color: variables.$color-primary-hover;
+    transform: none;
+  }
+}
+
+/* MENSAJES */
+.no-results {
+  text-align: center;
+  color: #888;
+  margin-top: 40px;
+  font-size: 1.1rem;
+}
+
+.results-count {
+  color: #555;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+}
