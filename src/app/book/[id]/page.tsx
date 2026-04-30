@@ -7,6 +7,7 @@ import {
   getLargeBookCover,
   getAuthorDetail,
 } from "@/services/openLibraryService";
+import BotonFavorito from "@/components/BotonFavorito";
 
 type BookDetailType = {
   title: string;
@@ -104,7 +105,12 @@ const [loading, setLoading] = useState(true);
           </a>
 
           {/* FAVORITOS (solo botón visual) */}
-          <button>Agregar a favoritos</button>
+          <BotonFavorito  
+            libro={{
+              key: `/works/${id}`,
+              title: book.title
+            }} 
+          />
         </div>
       </div>
     </div>
