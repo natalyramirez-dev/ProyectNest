@@ -1,0 +1,21 @@
+@use './variables';
+
+.favoritos-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+.favoritos-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* MISMO GRID QUE BUSCADOR */
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}

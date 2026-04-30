@@ -49,7 +49,7 @@ export default function BuscarPage() {
 
   return (
     <div className="container">
-      <h1>🔍 Buscador</h1>
+      <h1>Buscador</h1>
 
       <div className="search-section">
         <div className="search-type-selector">
