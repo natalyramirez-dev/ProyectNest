@@ -1,10 +1,14 @@
 const BASE_URL = "https://openlibrary.org";
 
-// Búsqueda general 
+// Búsqueda general
 export const searchBooks = async (query: string) => {
   try {
-    const response = await fetch(`${BASE_URL}/search.json?q=${encodeURIComponent(query)}&limit=20`);
+    const response = await fetch(
+      `${BASE_URL}/search.json?q=${encodeURIComponent(query)}&limit=20`
+    );
+
     if (!response.ok) throw new Error("Error al buscar libros");
+
     const data = await response.json();
     return data.docs;
   } catch (error) {
@@ -13,11 +17,15 @@ export const searchBooks = async (query: string) => {
   }
 };
 
-// Búsqueda por TÍTULO 
+// Búsqueda por TÍTULO
 export const searchByTitle = async (title: string) => {
   try {
-    const response = await fetch(`${BASE_URL}/search.json?title=${encodeURIComponent(title)}&limit=20`);
+    const response = await fetch(
+      `${BASE_URL}/search.json?title=${encodeURIComponent(title)}&limit=20`
+    );
+
     if (!response.ok) throw new Error("Error al buscar por título");
+
     const data = await response.json();
     return data.docs;
   } catch (error) {
@@ -26,11 +34,15 @@ export const searchByTitle = async (title: string) => {
   }
 };
 
-// Búsqueda por AUTOR 
+// Búsqueda por AUTOR
 export const searchByAuthor = async (author: string) => {
   try {
-    const response = await fetch(`${BASE_URL}/search.json?author=${encodeURIComponent(author)}&limit=20`);
+    const response = await fetch(
+      `${BASE_URL}/search.json?author=${encodeURIComponent(author)}&limit=20`
+    );
+
     if (!response.ok) throw new Error("Error al buscar por autor");
+
     const data = await response.json();
     return data.docs;
   } catch (error) {
@@ -39,11 +51,15 @@ export const searchByAuthor = async (author: string) => {
   }
 };
 
-// Búsqueda por TEMA / PALABRA CLAVE 
+// Búsqueda por TEMA / PALABRA CLAVE
 export const searchByTopic = async (topic: string) => {
   try {
-    const response = await fetch(`${BASE_URL}/search.json?subject=${encodeURIComponent(topic)}&limit=20`);
+    const response = await fetch(
+      `${BASE_URL}/search.json?subject=${encodeURIComponent(topic)}&limit=20`
+    );
+
     if (!response.ok) throw new Error("Error al buscar por tema");
+
     const data = await response.json();
     return data.docs;
   } catch (error) {
@@ -52,22 +68,46 @@ export const searchByTopic = async (topic: string) => {
   }
 };
 
-// Obtener portada 
 export const getBookCover = (coverId: number) => {
   return coverId
     ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`
     : "/no-cover.png";
 };
 
-// Detalle de obra 
+export const getLargeBookCover = (coverId?: number) => {
+  return coverId
+    ? `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`
+    : "/no-cover.png";
+};
+
 export const getBookDetail = async (workId: string) => {
   try {
-    const response = await fetch(`${BASE_URL}${workId}.json`);
+    const cleanWorkId = workId.startsWith("/works/")
+      ? workId
+      : `/works/${workId}`;
+
+    const response = await fetch(`${BASE_URL}${cleanWorkId}.json`);
+
     if (!response.ok) throw new Error("Error al obtener detalles del libro");
+
     const data = await response.json();
     return data;
   } catch (error) {
     console.error("Error en getBookDetail:", error);
+    throw error;
+  }
+};
+
+export const getAuthorDetail = async (authorKey: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}${authorKey}.json`);
+
+    if (!response.ok) throw new Error("Error al obtener autor");
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error en getAuthorDetail:", error);
     throw error;
   }
 };
