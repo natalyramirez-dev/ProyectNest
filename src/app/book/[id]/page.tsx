@@ -32,7 +32,6 @@ const [loading, setLoading] = useState(true);
         const data = await getBookDetail(id as string);
         setBook(data);
 
-        // 🔥 Obtener autores
         if (data.authors) {
           const authorPromises = data.authors.map((a: { author: { key: string } }) =>
             getAuthorDetail(a.author.key)
