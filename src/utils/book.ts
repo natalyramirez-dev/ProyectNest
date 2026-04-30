@@ -5,4 +5,5 @@ export type Book = {
   first_publish_year?: number;
   edition_count?: number;
   cover_i?: number;
+  language?: string[];
 };

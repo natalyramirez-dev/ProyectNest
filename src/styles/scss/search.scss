@@ -93,3 +93,41 @@
   margin-bottom: 16px;
   font-size: 0.95rem;
 }
+
+/* PANEL DE FILTROS */
+.filter-panel {
+  margin-top: 20px;
+  padding: 20px;
+  background: variables.$color-card;
+  border-radius: variables.$border-radius;
+  box-shadow: variables.$shadow-card;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.filter-panel input,
+.filter-panel select {
+  padding: 10px 12px;
+  border: 2px solid #ddd;
+  border-radius: variables.$border-radius;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    border-color: variables.$color-primary;
+  }
+}
+
+.filter-panel label {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
