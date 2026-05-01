@@ -2,9 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark-mode");
+      setDarkMode(true);
+    }
+  }, []);
 
   const links = [
     { href: "/", label: "Inicio" },
@@ -12,6 +23,16 @@ export default function Navbar() {
     { href: "/favoritos", label: "Favoritos" },
     { href: "/acerca", label: "Acerca" },
   ];
+
+  const toggleDarkMode = () => {
+    document.body.classList.toggle("dark-mode");
+
+    const isDark = document.body.classList.contains("dark-mode");
+
+    setDarkMode(isDark);
+
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  };
 
   return (
     <nav className="navbar">
@@ -27,6 +48,9 @@ export default function Navbar() {
           </li>
         ))}
       </ul>
+      <button onClick={toggleDarkMode}>
+        {darkMode ? "☀ Claro" : "🌙 Oscuro"}
+      </button>
     </nav>
   );
 }
