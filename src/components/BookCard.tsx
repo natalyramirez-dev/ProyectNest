@@ -1,3 +1,5 @@
+"use client";
+
 import { getBookCover } from "../services/openLibraryService";
 import { Book } from "../utils/book";
 import { useRouter } from "next/navigation";

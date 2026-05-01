@@ -89,6 +89,7 @@ export default function Home() {
       />
 
       <p>Resultados encontrados: {filteredBooks.length}</p>
+      
 
       <div className="book-grid">
         {filteredBooks.map((book, index) => (

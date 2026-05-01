@@ -1,4 +1,4 @@
-+"use client";
+"use client";
 
 import { useState } from "react";
 import { searchByTitle, searchByAuthor, searchByTopic } from "../../services/openLibraryService";
