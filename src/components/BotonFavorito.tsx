@@ -1,32 +1,48 @@
 "use client";
+
 import { useEffect, useState } from "react";
+
 import {
   agregarFavorito,
   eliminarFavorito,
   obtenerFavoritos,
-} from "../utils/favoritos";
-import { Book } from "../utils/book";
+} from "@/utils/favoritos";
 
-interface Props {
+import { Book } from "@/types/book";
+
+type BotonFavoritoProps = {
   libro: Book;
-}
+};
 
-export default function BotonFavorito({ libro }: Props) {
+export default function BotonFavorito({
+  libro,
+}: BotonFavoritoProps) {
+
   const [esFavorito, setEsFavorito] = useState(false);
 
   const verificarFavorito = () => {
     const favoritos = obtenerFavoritos();
-    const existe = favoritos.some((f) => f.key === libro.key);
+
+    const existe = favoritos.some(
+      (favorito) => favorito.key === libro.key
+    );
+
     setEsFavorito(existe);
   };
 
   useEffect(() => {
     verificarFavorito();
 
-    window.addEventListener("favoritosUpdated", verificarFavorito);
+    window.addEventListener(
+      "favoritosUpdated",
+      verificarFavorito
+    );
 
     return () => {
-      window.removeEventListener("favoritosUpdated", verificarFavorito);
+      window.removeEventListener(
+        "favoritosUpdated",
+        verificarFavorito
+      );
     };
   }, [libro.key]);
 
@@ -37,14 +53,16 @@ export default function BotonFavorito({ libro }: Props) {
       agregarFavorito(libro);
     }
 
-    verificarFavorito();
-
-    window.dispatchEvent(new Event("favoritosUpdated"));
+    window.dispatchEvent(
+      new Event("favoritosUpdated")
+    );
   };
 
   return (
     <button onClick={toggleFavorito}>
-      {esFavorito ? "Quitar de favoritos" : "Agregar a favoritos"}
+      {esFavorito
+        ? "Quitar de favoritos"
+        : "Agregar a favoritos"}
     </button>
   );
 }

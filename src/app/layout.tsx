@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "../styles/css/globals.css";
+
+import {
+  Geist,
+  Geist_Mono,
+} from "next/font/google";
+
 import Navbar from "../components/Navbar";
+
+import "../styles/css/globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,18 +21,25 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Biblioteca Inteligente",
-  description: "Busca y guarda tus libros favoritos",
+  description:
+    "Busca y guarda tus libros favoritos",
 };
+
+type RootLayoutProps = Readonly<{
+  children: React.ReactNode;
+}>;
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: RootLayoutProps) {
   return (
-    <html lang="es" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="es"
+      className={`${geistSans.variable} ${geistMono.variable}`}
+    >
       <body>
         <Navbar />
+
         <main>{children}</main>
       </body>
     </html>

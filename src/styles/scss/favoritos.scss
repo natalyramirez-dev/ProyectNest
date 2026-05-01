@@ -2,20 +2,59 @@
 
 .favoritos-container {
   width: 100%;
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 0 20px;
-}
+  max-width: 75rem;
+  margin: 1.25rem auto;
+  padding: 0 1.25rem;
+  color: variables.$color-text;
+  min-height: 100vh;
+  transition: color 0.3s ease, background-color 0.3s ease;
 
-.favoritos-container h1 {
-  text-align: center;
-  margin-bottom: 20px;
+  :global(body.dark-mode) & {
+    color: variables.$color-text-dark;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: variables.$color-primary;
+    margin-bottom: 2rem;
+    position: relative;
+    letter-spacing: -0.05em;
+    transition: color 0.3s ease;
+
+    :global(body.dark-mode) & {
+      color: #e5c5a3;
+    }
+
+    &::after {
+      content: "";
+      display: block;
+      width: 3.75rem;
+      height: 0.25rem;
+      background: variables.$color-primary;
+      margin: 0.625rem auto 0;
+      border-radius: variables.$border-radius;
+      transition: background 0.3s ease;
+
+      :global(body.dark-mode) & {
+        background: #e5c5a3;
+      }
+    }
+  }
+
+  p {
+    text-align: center;
+    opacity: 0.6;
+    margin-top: 2.5rem;
+    font-size: 1.1rem;
+  }
 }
 
 /* MISMO GRID QUE BUSCADOR */
 .books-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(14.375rem, 1fr));
+  gap: 1.25rem;
   justify-items: center;
 }
