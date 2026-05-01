@@ -1,9 +1,9 @@
- @use './variables';
- @use './home';
- @use './search';
- @use './navbar';
- @use './favoritos';
-
+@use './variables';
+@use './home';
+@use './search';
+@use './navbar';
+@use './favoritos';
+@use './acerca';
 
 body {
   font-family: Arial, sans-serif;
@@ -13,7 +13,25 @@ body {
   padding: 0;
 }
 
+.container {
+  width: 100%;
+  max-width: 75rem;
+  margin: 1.25rem auto;
+  padding: 0 1.25rem;
+  color: variables.$color-text;
+  background-color: #ffffff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container h1{
+  color: variables.$color-primary;
+}
 .dark-mode {
+  background-color: variables.$color-bg-dark;
+  color: variables.$color-text-dark;
+}
+
+.dark-mode .container {
   background-color: variables.$color-bg-dark;
   color: variables.$color-text-dark;
 }

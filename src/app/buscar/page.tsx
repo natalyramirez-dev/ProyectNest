@@ -146,43 +146,21 @@ export default function BuscarPage() {
     <div className="container">
       <h1>Buscador</h1>
 
-      {/* 🔥 FILTROS (del home movidos aquí) */}
-      <FilterPanel
-        minYear={minYear}
-        maxYear={maxYear}
-        language={language}
-        author={author}
-        sortBy={sortBy}
-        setMinYear={setMinYear}
-        setMaxYear={setMaxYear}
-        setLanguage={setLanguage}
-        setAuthor={setAuthor}
-        setSortBy={setSortBy}
-      />
-
-      {/* 🔍 BÚSQUEDA */}
+      {/* 🔍 BÚSQUEDA INTEGRADA */}
       <div className="search-section">
-        <div className="search-type-selector">
-          {["titulo", "autor", "tema"].map((type) => (
-            <button
-              key={type}
-              className={
-                searchType === type ? "active" : ""
-              }
-              onClick={() =>
-                setSearchType(type as SearchType)
-              }
-            >
-              {type === "titulo"
-                ? "Por Título"
-                : type === "autor"
-                ? "Por Autor"
-                : "Por Tema"}
-            </button>
-          ))}
-        </div>
+        <div className="search-wrapper">
+          <select
+            className="search-type-select"
+            value={searchType}
+            onChange={(e) =>
+              setSearchType(e.target.value as SearchType)
+            }
+          >
+            <option value="titulo">Por Título</option>
+            <option value="autor">Por Autor</option>
+            <option value="tema">Por Tema</option>
+          </select>
 
-        <div className="search-input-row">
           <input
             type="text"
             value={query}
@@ -205,6 +183,20 @@ export default function BuscarPage() {
         </div>
       </div>
 
+      {/* 🔥 FILTROS */}
+      <FilterPanel
+        minYear={minYear}
+        maxYear={maxYear}
+        language={language}
+        author={author}
+        sortBy={sortBy}
+        setMinYear={setMinYear}
+        setMaxYear={setMaxYear}
+        setLanguage={setLanguage}
+        setAuthor={setAuthor}
+        setSortBy={setSortBy}
+      />
+
       {/* ESTADOS */}
       {loading && <Loading />}
       {error && <ErrorMessage message={error} />}
@@ -214,7 +206,7 @@ export default function BuscarPage() {
         filteredBooks.length === 0 &&
         !error && (
           <p className="no-results">
-            No se encontraron libros para "{query}".
+            No se encontraron libros para &quot;{query}&quot;.
           </p>
         )}
 

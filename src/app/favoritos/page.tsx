@@ -4,13 +4,11 @@ import { useEffect, useState } from "react";
 
 import BookCard from "../../components/BookCard";
 
-import {
-  Libro,
-  obtenerFavoritos,
-} from "../../utils/favoritos";
+import { obtenerFavoritos } from "../../utils/favoritos";
+import { Book } from "../../types/book";
 
 export default function FavoritosPage() {
-  const [favoritos, setFavoritos] = useState<Libro[]>([]);
+  const [favoritos, setFavoritos] = useState<Book[]>([]);
 
   useEffect(() => {
     const actualizarFavoritos = () => {
