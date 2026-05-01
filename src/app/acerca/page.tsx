@@ -5,12 +5,13 @@ export default function AcercaPage() {
 
       <p>
         Biblioteca Inteligente es una aplicación desarrollada con Next.js y
-        React que permite buscar libros usando la API pública de Open Library.
+        React que consume la API pública de Open Library para explorar libros,
+        buscar información y guardar favoritos.
       </p>
 
       <p>
-        Los usuarios pueden explorar libros, ver detalles, aplicar filtros y
-        guardar favoritos utilizando localStorage.
+        El proyecto permite realizar búsquedas por título, autor o tema,
+        aplicar filtros avanzados y visualizar detalles completos de cada obra.
       </p>
 
       <h2>Tecnologías utilizadas</h2>
@@ -21,6 +22,17 @@ export default function AcercaPage() {
         <li>TypeScript</li>
         <li>SCSS</li>
         <li>Open Library API</li>
+        <li>localStorage</li>
+      </ul>
+
+      <h2>Características principales</h2>
+
+      <ul>
+        <li>Búsqueda avanzada de libros</li>
+        <li>Filtros por año, idioma y autor</li>
+        <li>Sistema de favoritos persistente</li>
+        <li>Página de detalle de libros</li>
+        <li>Diseño responsive</li>
       </ul>
     </div>
   );
