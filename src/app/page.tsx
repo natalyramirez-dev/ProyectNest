@@ -89,13 +89,19 @@ export default function Home() {
       />
 
       <p>Resultados encontrados: {filteredBooks.length}</p>
-      
+      { filteredBooks.length === 0 && (
+        <p className="no-results">
+          No se encontraron libros con esos filtros.
+        </p>
+      )}
 
-      <div className="book-grid">
-        {filteredBooks.map((book, index) => (
-          <BookCard key={book.key || index} book={book} />
-        ))}
-      </div>
-    </div>
-  );
+      {filteredBooks.length > 0 && (
+        <div className="book-grid">
+              {filteredBooks.map((book, index) => (
+                <BookCard key={book.key || index} book={book} />
+              ))}
+            </div>
+          )}
+        </div>
+      );
 }
