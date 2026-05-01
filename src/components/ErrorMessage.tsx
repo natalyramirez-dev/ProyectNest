@@ -1,5 +1,9 @@
-type Props = { message: string };
+import { ErrorMessageProps } from "../utils/error";
 
-export default function ErrorMessage({ message }: Props) {
-  return <p style={{ textAlign: "center", color: "red", marginTop: "40px" }}>{message}</p>;
+export default function ErrorMessage({ message }: ErrorMessageProps) {
+  return (
+    <div className="error-container">
+      <p>{message}</p>
+    </div>
+  );
 }

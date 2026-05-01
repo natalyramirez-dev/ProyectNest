@@ -1,3 +1,8 @@
 export default function Loading() {
-  return <p style={{ textAlign: "center", marginTop: "40px" }}>Cargando...</p>;
+  return (
+    <div className="loading-container">
+      <div className="loader"></div>
+      <p>Cargando libros...</p>
+    </div>
+  );
 }

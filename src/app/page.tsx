@@ -5,6 +5,8 @@ import { searchBooks } from "../services/openLibraryService";
 import BookCard from "../components/BookCard";
 import FilterPanel from "../components/FilterPanel";
 import { Book } from "../utils/book";
+import ErrorMessage from "@/components/ErrorMessage";
+import Loading from "@/components/Loading";
 
 export default function Home() {
   const [books, setBooks] = useState<Book[]>([]);
@@ -67,8 +69,8 @@ export default function Home() {
       return 0;
     });
 
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <Loading />;
+  if (error) return <ErrorMessage message={error} />;
 
   return (
     <div className="container">
