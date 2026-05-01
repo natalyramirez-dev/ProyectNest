@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
 import { NavLink } from "@/types/nav";
 
 const navLinks: NavLink[] = [
@@ -18,11 +19,14 @@ export default function Navbar() {
 
   const [darkMode, setDarkMode] = useState(false);
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
 
     if (savedTheme === "dark") {
       document.body.classList.add("dark-mode");
+
       setDarkMode(true);
     }
   }, []);
@@ -41,26 +45,56 @@ export default function Navbar() {
     );
   };
 
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
   return (
     <nav className="navbar">
-      <ul className="navbar-links">
-        {navLinks.map((link) => (
-          <li key={link.href}>
-            <Link
-              href={link.href}
-              className={
-                pathname === link.href ? "active" : ""
-              }
-            >
-              {link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <div className="navbar-top">
+        <h2 className="navbar-logo">
+          Library
+        </h2>
 
-      <button onClick={toggleDarkMode}>
-        {darkMode ? "☀ Claro" : "🌙 Oscuro"}
-      </button>
+        <button
+          className="menu-toggle"
+          onClick={() =>
+            setMenuOpen(!menuOpen)
+          }
+        >
+          {menuOpen ? "✕" : "☰"}
+        </button>
+      </div>
+
+      <div
+        className={`navbar-menu ${
+          menuOpen ? "open" : ""
+        }`}
+      >
+        <ul className="navbar-links">
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                onClick={closeMenu}
+                className={
+                  pathname === link.href
+                    ? "active"
+                    : ""
+                }
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <button onClick={toggleDarkMode}>
+          {darkMode
+            ? "☀ Claro"
+            : "🌙 Oscuro"}
+        </button>
+      </div>
     </nav>
   );
 }
