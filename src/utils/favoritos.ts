@@ -1,30 +1,60 @@
-import { Book } from "./book";
+import { Book } from "@/types/book";
 
-const KEY = "favoritos";
+const FAVORITOS_KEY = "favoritos";
 
-export type Libro = Book;
+export const obtenerFavoritos = (): Book[] => {
+  if (typeof window === "undefined") {
+    return [];
+  }
 
-export const obtenerFavoritos = (): Libro[] => {
-  if (typeof window === "undefined") return [];
-  const data = localStorage.getItem(KEY);
-  return data ? JSON.parse(data) : [];
+  const favoritosGuardados =
+    localStorage.getItem(FAVORITOS_KEY);
+
+  return favoritosGuardados
+    ? JSON.parse(favoritosGuardados)
+    : [];
 };
 
-export const guardarFavoritos = (favoritos: Libro[]) => {
-  localStorage.setItem(KEY, JSON.stringify(favoritos));
+export const guardarFavoritos = (
+  favoritos: Book[]
+): void => {
+
+  localStorage.setItem(
+    FAVORITOS_KEY,
+    JSON.stringify(favoritos)
+  );
 };
 
-export const agregarFavorito = (libro: Libro) => {
+export const agregarFavorito = (
+  libro: Book
+): void => {
+
   const favoritos = obtenerFavoritos();
 
-  const existe = favoritos.find((f) => f.key === libro.key);
-  if (existe) return;
+  const yaExiste = favoritos.some(
+    (favorito) => favorito.key === libro.key
+  );
 
-  favoritos.push(libro);
-  guardarFavoritos(favoritos);
+  if (yaExiste) {
+    return;
+  }
+
+  const nuevosFavoritos = [
+    ...favoritos,
+    libro,
+  ];
+
+  guardarFavoritos(nuevosFavoritos);
 };
 
-export const eliminarFavorito = (key: string) => {
-  const favoritos = obtenerFavoritos().filter((f) => f.key !== key);
-  guardarFavoritos(favoritos);
+export const eliminarFavorito = (
+  key: string
+): void => {
+
+  const favoritosActualizados =
+    obtenerFavoritos().filter(
+      (favorito) => favorito.key !== key
+    );
+
+  guardarFavoritos(favoritosActualizados);
 };

@@ -1,4 +1,4 @@
-import { ErrorMessageProps } from "../utils/error";
+import { ErrorMessageProps } from "../types/error";
 
 export default function ErrorMessage({ message }: ErrorMessageProps) {
   return (

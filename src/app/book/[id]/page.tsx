@@ -8,37 +8,28 @@ import {
   getAuthorDetail,
 } from "@/services/openLibraryService";
 import BotonFavorito from "@/components/BotonFavorito";
-
-type BookDetailType = {
-  title: string;
-  description?: string | { value: string };
-  covers?: number[];
-  subjects?: string[];
-  authors?: { author: { key: string } }[];
-  first_publish_date?: string;
-};
+import { AuthorType, BookDetailType } from "@/types/bookDetail";
 
 export default function BookDetail() {
-const params = useParams();
-const id = params?.id as string;
+const { id } = useParams<{ id: string }>();
 
 const [book, setBook] = useState<BookDetailType | null>(null);
 const [authors, setAuthors] = useState<string[]>([]);
 const router = useRouter();
 const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchDetail = async () => {
-      try {
-        const data = await getBookDetail(id as string);
-        setBook(data);
+useEffect(() => {
+  const fetchDetail = async () => {
+    try {
+      const data = await getBookDetail(id as string);
+      setBook(data);
 
-        if (data.authors) {
-          const authorPromises = data.authors.map((a: { author: { key: string } }) =>
-            getAuthorDetail(a.author.key)
-          );
+      if (data.authors) {
+        const authorPromises = data.authors.map((a: AuthorType) =>
+          getAuthorDetail(a.author.key)
+        );
 
-          const authorData = await Promise.all(authorPromises);
+      const authorData = await Promise.all(authorPromises);
           setAuthors(authorData.map((a) => a.name));
         }
       } catch (error) {

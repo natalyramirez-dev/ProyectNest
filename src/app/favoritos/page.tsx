@@ -1,33 +1,46 @@
 "use client";
+
 import { useEffect, useState } from "react";
-import { obtenerFavoritos, Libro } from "../../utils/favoritos";
+
 import BookCard from "../../components/BookCard";
+
+import {
+  Libro,
+  obtenerFavoritos,
+} from "../../utils/favoritos";
 
 export default function FavoritosPage() {
   const [favoritos, setFavoritos] = useState<Libro[]>([]);
 
   useEffect(() => {
-    const actualizar = () => {
-      const data = obtenerFavoritos();
+    const actualizarFavoritos = () => {
+      const favoritosGuardados = obtenerFavoritos();
 
-      // limpiar inválidos y duplicados
-      const filtrados = data.filter(
-        (libro, index, self) =>
-          libro?.key &&
-          index === self.findIndex((l) => l.key === libro.key)
-      );
+      const favoritosFiltrados =
+        favoritosGuardados.filter(
+          (libro, index, self) =>
+            libro?.key &&
+            index ===
+              self.findIndex(
+                (item) => item.key === libro.key
+              )
+        );
 
-      setFavoritos(filtrados);
+      setFavoritos(favoritosFiltrados);
     };
 
-    // cargar al inicio
-    actualizar();
+    actualizarFavoritos();
 
-    // 🔥 escuchar cambios de favoritos
-    window.addEventListener("favoritosUpdated", actualizar);
+    window.addEventListener(
+      "favoritosUpdated",
+      actualizarFavoritos
+    );
 
     return () => {
-      window.removeEventListener("favoritosUpdated", actualizar);
+      window.removeEventListener(
+        "favoritosUpdated",
+        actualizarFavoritos
+      );
     };
   }, []);
 
@@ -35,11 +48,16 @@ export default function FavoritosPage() {
     <div className="favoritos-container">
       <h1>Mis Favoritos</h1>
 
-      {favoritos.length === 0 && <p>No hay favoritos aún</p>}
+      {favoritos.length === 0 && (
+        <p>No hay favoritos aún</p>
+      )}
 
       <div className="books-grid">
         {favoritos.map((libro) => (
-          <BookCard key={libro.key} book={libro} />
+          <BookCard
+            key={libro.key}
+            book={libro}
+          />
         ))}
       </div>
     </div>

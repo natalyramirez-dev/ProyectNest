@@ -1,18 +1,34 @@
 "use client";
 
 import { useState } from "react";
-import { searchByTitle, searchByAuthor, searchByTopic } from "../../services/openLibraryService";
+
+import {
+  searchByAuthor,
+  searchByTitle,
+  searchByTopic,
+} from "../../services/openLibraryService";
+
 import BookCard from "../../components/BookCard";
-import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/ErrorMessage";
-import { Book } from "../../utils/book";
+import Loading from "../../components/Loading";
+
+import { Book } from "../../types/book";
 
 type SearchType = "titulo" | "autor" | "tema";
 
+const searchPlaceholders = {  
+  titulo: "Ej: Clean Code",
+  autor: "Ej: Tolkien",
+  tema: "Ej: Artificial Intelligence",
+};
+
 export default function BuscarPage() {
   const [query, setQuery] = useState("");
-  const [searchType, setSearchType] = useState<SearchType>("titulo");
+  const [searchType, setSearchType] =
+    useState<SearchType>("titulo");
+
   const [books, setBooks] = useState<Book[]>([]);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [searched, setSearched] = useState(false);
@@ -27,24 +43,38 @@ export default function BuscarPage() {
     try {
       let results: Book[] = [];
 
-      if (searchType === "titulo") {
-        results = await searchByTitle(query);
-      } else if (searchType === "autor") {
-        results = await searchByAuthor(query);
-      } else {
-        results = await searchByTopic(query);
+      switch (searchType) {
+        case "titulo":
+          results = await searchByTitle(query);
+          break;
+
+        case "autor":
+          results = await searchByAuthor(query);
+          break;
+
+        case "tema":
+          results = await searchByTopic(query);
+          break;
       }
 
       setBooks(results);
-    } catch (err) {
-      setError("Hubo un error al realizar la búsqueda. Intentá de nuevo.");
+    } catch (error) {
+      console.error(error);
+
+      setError(
+        "Hubo un error al realizar la búsqueda."
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") handleSearch();
+  const handleInputKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   return (
@@ -54,19 +84,27 @@ export default function BuscarPage() {
       <div className="search-section">
         <div className="search-type-selector">
           <button
-            className={searchType === "titulo" ? "active" : ""}
+            className={
+              searchType === "titulo" ? "active" : ""
+            }
             onClick={() => setSearchType("titulo")}
           >
             Por Título
           </button>
+
           <button
-            className={searchType === "autor" ? "active" : ""}
+            className={
+              searchType === "autor" ? "active" : ""
+            }
             onClick={() => setSearchType("autor")}
           >
             Por Autor
           </button>
+
           <button
-            className={searchType === "tema" ? "active" : ""}
+            className={
+              searchType === "tema" ? "active" : ""
+            }
             onClick={() => setSearchType("tema")}
           >
             Por Tema / Palabra clave
@@ -77,36 +115,50 @@ export default function BuscarPage() {
           <input
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={
-              searchType === "titulo"
-                ? "Ej: Clean Code"
-                : searchType === "autor"
-                ? "Ej: Tolkien"
-                : "Ej: Artificial Intelligence"
-            }
             className="search-input"
+            placeholder={searchPlaceholders[searchType]}
+            onChange={(event) =>
+              setQuery(event.target.value)
+            }
+            onKeyDown={handleInputKeyDown}
           />
-          <button className="search-btn" onClick={handleSearch}>
+
+          <button
+            className="search-btn"
+            onClick={handleSearch}
+          >
             Buscar
           </button>
         </div>
       </div>
 
       {loading && <Loading />}
-      {error && <ErrorMessage message={error} />}
 
-      {!loading && searched && books.length === 0 && !error && (
-        <p className="no-results">No se encontraron libros para "{query}".</p>
+      {error && (
+        <ErrorMessage message={error} />
       )}
+
+      {!loading &&
+        searched &&
+        books.length === 0 &&
+        !error && (
+          <p className="no-results">
+            No se encontraron libros para "{query}".
+          </p>
+        )}
 
       {!loading && books.length > 0 && (
         <>
-          <p className="results-count">{books.length} resultados encontrados</p>
+          <p className="results-count">
+            {books.length} resultados encontrados
+          </p>
+
           <div className="book-grid">
-            {books.map((book, index) => (
-              <BookCard key={index} book={book} />
+            {books.map((book) => (
+              <BookCard
+                key={book.key}
+                book={book}
+              />
             ))}
           </div>
         </>

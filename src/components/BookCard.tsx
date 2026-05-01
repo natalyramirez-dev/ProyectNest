@@ -1,46 +1,60 @@
 "use client";
 
-import { getBookCover } from "../services/openLibraryService";
-import { Book } from "../utils/book";
 import { useRouter } from "next/navigation";
+
 import BotonFavorito from "./BotonFavorito";
 
-type Props = {
+import { getBookCover } from "@/services/openLibraryService";
+import { Book } from "@/types/book";
+
+type BookCardProps = {
   book: Book;
 };
 
-export default function BookCard({ book }: Props) {
-  const coverUrl = getBookCover(book.cover_i || 0);
+export default function BookCard({ book }: BookCardProps) {
   const router = useRouter();
 
+  const {
+    key,
+    title,
+    cover_i,
+    author_name,
+    first_publish_year,
+    edition_count,
+  } = book;
+
+  const coverUrl = getBookCover(cover_i || 0);
+
   const handleDetail = () => {
-    const workId = book.key.replace("/works/", "");
+    const workId = key.replace("/works/", "");
     router.push(`/book/${workId}`);
   };
 
   return (
     <div className="book-card">
-      <img src={coverUrl} alt={book.title} />
+      <img src={coverUrl} alt={title} />
 
-      <h3>{book.title}</h3>
+      <h3>{title}</h3>
 
       <p>
         <strong>Autor:</strong>{" "}
-        {book.author_name ? book.author_name.join(", ") : "Desconocido"}
+        {author_name?.join(", ") || "Desconocido"}
       </p>
 
       <p>
-        <strong>Año:</strong> {book.first_publish_year || "N/A"}
+        <strong>Año:</strong> {first_publish_year || "N/A"}
       </p>
 
       <p>
-        <strong>Ediciones:</strong> {book.edition_count || 0}
+        <strong>Ediciones:</strong> {edition_count || 0}
       </p>
 
       <div className="buttons">
-        <button onClick={handleDetail}>Ver detalle</button>
+        <button onClick={handleDetail}>
+          Ver detalle
+        </button>
 
-       <BotonFavorito libro={book} />
+        <BotonFavorito libro={book} />
       </div>
     </div>
   );

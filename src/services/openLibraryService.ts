@@ -1,113 +1,94 @@
+import { Book } from "@/types/book";
+import { BookDetailType } from "@/types/bookDetail";
+
 const BASE_URL = "https://openlibrary.org";
 
-// Búsqueda general
-export const searchBooks = async (query: string) => {
-  try {
-    const response = await fetch(
-      `${BASE_URL}/search.json?q=${encodeURIComponent(query)}&limit=20`
-    );
+const fetchData = async (url: string) => {
+  const response = await fetch(url);
 
-    if (!response.ok) throw new Error("Error al buscar libros");
-
-    const data = await response.json();
-    return data.docs;
-  } catch (error) {
-    console.error("Error en searchBooks:", error);
-    throw error;
+  if (!response.ok) {
+    throw new Error("Error al obtener datos");
   }
+
+  return response.json();
 };
 
-// Búsqueda por TÍTULO
-export const searchByTitle = async (title: string) => {
-  try {
-    const response = await fetch(
-      `${BASE_URL}/search.json?title=${encodeURIComponent(title)}&limit=20`
-    );
+const searchRequest = async (
+  type: string,
+  value: string
+): Promise<Book[]> => {
 
-    if (!response.ok) throw new Error("Error al buscar por título");
+  const data = await fetchData(
+    `${BASE_URL}/search.json?${type}=${encodeURIComponent(value)}&limit=20`
+  );
 
-    const data = await response.json();
-    return data.docs;
-  } catch (error) {
-    console.error("Error en searchByTitle:", error);
-    throw error;
-  }
+  return data.docs;
 };
 
-// Búsqueda por AUTOR
-export const searchByAuthor = async (author: string) => {
-  try {
-    const response = await fetch(
-      `${BASE_URL}/search.json?author=${encodeURIComponent(author)}&limit=20`
-    );
+export const searchBooks = async (
+  query: string
+): Promise<Book[]> => {
 
-    if (!response.ok) throw new Error("Error al buscar por autor");
-
-    const data = await response.json();
-    return data.docs;
-  } catch (error) {
-    console.error("Error en searchByAuthor:", error);
-    throw error;
-  }
+  return searchRequest("q", query);
 };
 
-// Búsqueda por TEMA / PALABRA CLAVE
-export const searchByTopic = async (topic: string) => {
-  try {
-    const response = await fetch(
-      `${BASE_URL}/search.json?subject=${encodeURIComponent(topic)}&limit=20`
-    );
+export const searchByTitle = async (
+  title: string
+): Promise<Book[]> => {
 
-    if (!response.ok) throw new Error("Error al buscar por tema");
-
-    const data = await response.json();
-    return data.docs;
-  } catch (error) {
-    console.error("Error en searchByTopic:", error);
-    throw error;
-  }
+  return searchRequest("title", title);
 };
 
-export const getBookCover = (coverId: number) => {
+export const searchByAuthor = async (
+  author: string
+): Promise<Book[]> => {
+
+  return searchRequest("author", author);
+};
+
+export const searchByTopic = async (
+  topic: string
+): Promise<Book[]> => {
+
+  return searchRequest("subject", topic);
+};
+
+export const getBookCover = (
+  coverId: number
+): string => {
+
   return coverId
     ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`
     : "/no-cover.png";
 };
 
-export const getLargeBookCover = (coverId?: number) => {
+export const getLargeBookCover = (
+  coverId?: number
+): string => {
+
   return coverId
     ? `https://covers.openlibrary.org/b/id/${coverId}-L.jpg`
     : "/no-cover.png";
 };
 
-export const getBookDetail = async (workId: string) => {
-  try {
-    const cleanWorkId = workId.startsWith("/works/")
-      ? workId
-      : `/works/${workId}`;
+export const getBookDetail = async (
+  workId: string
+): Promise<BookDetailType> => {
 
-    const response = await fetch(`${BASE_URL}${cleanWorkId}.json`);
+  const cleanWorkId = workId.startsWith("/works/")
+    ? workId
+    : `/works/${workId}`;
 
-    if (!response.ok) throw new Error("Error al obtener detalles del libro");
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error en getBookDetail:", error);
-    throw error;
-  }
+  return fetchData(
+    `${BASE_URL}${cleanWorkId}.json`
+  );
 };
 
-export const getAuthorDetail = async (authorKey: string) => {
-  try {
-    const response = await fetch(`${BASE_URL}${authorKey}.json`);
+export const getAuthorDetail = async (
+  authorKey: string
+): Promise<any> => {
 
-    if (!response.ok) throw new Error("Error al obtener autor");
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error en getAuthorDetail:", error);
-    throw error;
-  }
+  return fetchData(
+    `${BASE_URL}${authorKey}.json`
+  );
 };
